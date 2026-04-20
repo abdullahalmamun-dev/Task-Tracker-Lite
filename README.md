@@ -46,7 +46,6 @@ A simple single-page Task Management application built with the MERN stack (Mong
 # 👨‍💻 Author
 
 **Abdullah Al Mamun**
----
 MERN Stack Developer
 
 ---
