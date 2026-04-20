@@ -20,7 +20,6 @@ mongoose.connect(MONGODB_URI)
     .then(() => console.log('Connected to MongoDB'))
     .catch((err) => console.error('MongoDB connection error:', err));
 
-// Basic route to test server
 app.get('/', (req, res) => {
     res.send('Task Tracker API is running...');
 });

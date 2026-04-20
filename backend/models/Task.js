@@ -6,6 +6,10 @@ const taskSchema = new mongoose.Schema({
         required: [true, 'Task title is required'],
         trim: true
     },
+    description: {
+        type: String,
+        trim: true
+    },
     status: {
         type: String,
         enum: ['new', 'completed', 'deleted'],

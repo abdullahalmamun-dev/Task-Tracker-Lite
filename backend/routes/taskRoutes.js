@@ -26,7 +26,8 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
     const task = new Task({
-        title: req.body.title
+        title: req.body.title,
+        description: req.body.description
     });
 
     try {
@@ -48,6 +49,10 @@ router.put('/:id', async (req, res) => {
 
         if (req.body.title) {
             task.title = req.body.title;
+        }
+
+        if (req.body.description !== undefined) {
+            task.description = req.body.description;
         }
 
         const updatedTask = await task.save();
@@ -93,7 +98,7 @@ router.delete('/:id', async (req, res) => {
         task.deletedAt = Date.now();
 
         await task.save();
-        res.json({ message: 'Task deleted successfully' });
+        res.json({ message: 'Task deleted successfully', task });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
