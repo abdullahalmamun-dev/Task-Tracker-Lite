@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000/api/tasks';
+const API_URL = 'https://task-tracker-lite-one.vercel.app/api/tasks';
 
 export const fetchTasks = async (status, search) => {
     let url = API_URL;

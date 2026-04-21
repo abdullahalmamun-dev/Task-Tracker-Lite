@@ -1,20 +1,36 @@
 import { useState, useEffect } from 'react';
+import { Toaster } from 'react-hot-toast';
 import { fetchTasks } from './api';
 import TaskList from './components/TaskList';
 import TaskForm from './components/TaskForm';
+import FilterBar from './components/FilterBar';
 
 function App() {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Filter and Search states
+  const [statusFilter, setStatusFilter] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
+  
+  // Debounce search query
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
   useEffect(() => {
     loadTasks();
-  }, []);
+  }, [statusFilter, debouncedSearch]);
 
   const loadTasks = async () => {
     try {
       setLoading(true);
-      const data = await fetchTasks();
+      const data = await fetchTasks(statusFilter, debouncedSearch);
       setTasks(data);
     } catch (error) {
       console.error('Failed to load tasks:', error);
@@ -24,11 +40,21 @@ function App() {
   };
 
   const handleTaskCreated = (newTask) => {
-    setTasks([newTask, ...tasks]);
+    if (statusFilter === 'All' || statusFilter === 'New') {
+        if (!debouncedSearch) {
+            setTasks([newTask, ...tasks]);
+        } else {
+            loadTasks();
+        }
+    }
   };
 
   const handleTaskUpdated = (updatedTask) => {
-    setTasks(tasks.map(t => t._id === updatedTask._id ? updatedTask : t));
+    if (statusFilter !== 'All' && updatedTask.status !== statusFilter.toLowerCase()) {
+        setTasks(tasks.filter(t => t._id !== updatedTask._id));
+    } else {
+        setTasks(tasks.map(t => t._id === updatedTask._id ? updatedTask : t));
+    }
   };
 
   const handleTaskDeleted = (taskId) => {
@@ -50,7 +76,34 @@ function App() {
       </header>
 
       <main className="flex-1 flex flex-col animate-fadeIn relative z-10">
+        <Toaster 
+          position="bottom-right" 
+          toastOptions={{
+            style: {
+              borderRadius: '12px',
+              background: '#fff',
+              color: '#334155',
+              boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+              border: '1px solid #e2e8f0',
+              fontWeight: 500,
+            },
+            success: {
+              iconTheme: {
+                primary: '#10b981',
+                secondary: '#fff',
+              },
+            },
+          }} 
+        />
         <TaskForm onTaskCreated={handleTaskCreated} />
+        
+        <FilterBar 
+            statusFilter={statusFilter} 
+            setStatusFilter={setStatusFilter} 
+            searchQuery={searchQuery} 
+            setSearchQuery={setSearchQuery} 
+        />
+
         <TaskList 
           tasks={tasks} 
           loading={loading} 
@@ -60,7 +113,7 @@ function App() {
       </main>
 
       <footer className="text-center py-10 mt-auto text-slate-400 text-sm font-medium relative z-10">
-        <p>&copy; {new Date().getFullYear()} &bull; Built with MERN Stack</p>
+        <p>&copy; {new Date().getFullYear()} &bull; <a href="https://instacall.digital/" target="_blank" >Built for Instacall</a></p>
       </footer>
     </div>
   );

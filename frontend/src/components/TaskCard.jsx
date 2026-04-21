@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 import { updateTask, completeTask, deleteTask } from '../api';
 
 const TaskCard = ({ task, onUpdate, onDelete }) => {
@@ -8,8 +9,9 @@ const TaskCard = ({ task, onUpdate, onDelete }) => {
     const [isProcessing, setIsProcessing] = useState(false);
 
     const formatDate = (dateString) => {
-        return new Date(dateString).toLocaleDateString('en-US', {
-            month: 'short', day: 'numeric', year: 'numeric'
+        return new Date(dateString).toLocaleString('en-US', {
+            month: 'short', day: 'numeric', year: 'numeric',
+            hour: 'numeric', minute: '2-digit', hour12: true
         });
     };
 
@@ -18,8 +20,10 @@ const TaskCard = ({ task, onUpdate, onDelete }) => {
         try {
             const updated = await completeTask(task._id);
             onUpdate(updated);
+            toast.success('Task completed! Great job.');
         } catch (err) {
             console.error(err);
+            toast.error('Failed to complete task');
         } finally {
             setIsProcessing(false);
         }
@@ -31,8 +35,10 @@ const TaskCard = ({ task, onUpdate, onDelete }) => {
         try {
             await deleteTask(task._id);
             onDelete(task._id);
+            toast.success('Task deleted.');
         } catch (err) {
             console.error(err);
+            toast.error('Failed to delete task');
             setIsProcessing(false);
         }
     };
@@ -44,8 +50,10 @@ const TaskCard = ({ task, onUpdate, onDelete }) => {
             const updated = await updateTask(task._id, { title: editTitle, description: editDescription });
             onUpdate(updated);
             setIsEditing(false);
+            toast.success('Task updated successfully.');
         } catch (err) {
             console.error(err);
+            toast.error('Failed to update task');
         } finally {
             setIsProcessing(false);
         }

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { createTask } from '../api';
 
 const TaskForm = ({ onTaskCreated }) => {
@@ -19,8 +20,10 @@ const TaskForm = ({ onTaskCreated }) => {
             onTaskCreated(newTask);
             setTitle('');
             setDescription('');
+            toast.success('Task created successfully!');
         } catch (err) {
             setError(err.message);
+            toast.error(err.message || 'Failed to create task');
         } finally {
             setIsSubmitting(false);
         }

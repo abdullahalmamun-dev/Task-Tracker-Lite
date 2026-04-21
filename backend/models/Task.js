@@ -12,8 +12,12 @@ const taskSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['new', 'completed', 'deleted'],
+        enum: ['new', 'completed'],
         default: 'new'
+    },
+    isDeleted: {
+        type: Boolean,
+        default: false
     },
     createdAt: {
         type: Date,

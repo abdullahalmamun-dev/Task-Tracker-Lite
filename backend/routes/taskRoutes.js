@@ -5,7 +5,7 @@ const Task = require('../models/Task');
 router.get('/', async (req, res) => {
     try {
         const { status, search } = req.query;
-        let query = { status: { $ne: 'deleted' } };
+        let query = { isDeleted: false };
 
         if (status && status !== 'All') {
             if (status.toLowerCase() === 'new' || status.toLowerCase() === 'completed') {
@@ -71,7 +71,7 @@ router.patch('/:id/complete', async (req, res) => {
             return res.status(400).json({ message: 'Task is already completed' });
         }
         
-        if (task.status === 'deleted') {
+        if (task.isDeleted) {
             return res.status(400).json({ message: 'Cannot complete a deleted task' });
         }
 
@@ -94,7 +94,7 @@ router.delete('/:id', async (req, res) => {
             return res.status(400).json({ message: 'Only new tasks can be deleted' });
         }
 
-        task.status = 'deleted';
+        task.isDeleted = true;
         task.deletedAt = Date.now();
 
         await task.save();
