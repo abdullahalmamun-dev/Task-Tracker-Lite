@@ -6,7 +6,7 @@ import TaskForm from './components/TaskForm';
 import FilterBar from './components/FilterBar';
 
 function App() {
-  const [tasks, setTasks] = useState([]);
+  const [allTasks, setAllTasks] = useState([]);
   const [loading, setLoading] = useState(true);
 
   // Filter and Search states
@@ -19,19 +19,20 @@ function App() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(searchQuery);
-    }, 400);
+    }, 300); // Faster debounce for snappy client-side feel
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
   useEffect(() => {
     loadTasks();
-  }, [statusFilter, debouncedSearch]);
+  }, []); // Only fetch once on mount
 
   const loadTasks = async () => {
     try {
       setLoading(true);
-      const data = await fetchTasks(statusFilter, debouncedSearch);
-      setTasks(data);
+      // Fetch all tasks (no filter)
+      const data = await fetchTasks();
+      setAllTasks(data);
     } catch (error) {
       console.error('Failed to load tasks:', error);
     } finally {
@@ -40,25 +41,28 @@ function App() {
   };
 
   const handleTaskCreated = (newTask) => {
-    if (statusFilter === 'All' || statusFilter === 'New') {
-        if (!debouncedSearch) {
-            setTasks([newTask, ...tasks]);
-        } else {
-            loadTasks();
-        }
-    }
+    setAllTasks([newTask, ...allTasks]);
   };
 
   const handleTaskUpdated = (updatedTask) => {
-    if (statusFilter !== 'All' && updatedTask.status !== statusFilter.toLowerCase()) {
-        setTasks(tasks.filter(t => t._id !== updatedTask._id));
-    } else {
-        setTasks(tasks.map(t => t._id === updatedTask._id ? updatedTask : t));
-    }
+    setAllTasks(allTasks.map(t => t._id === updatedTask._id ? updatedTask : t));
   };
 
   const handleTaskDeleted = (taskId) => {
-    setTasks(tasks.filter(t => t._id !== taskId));
+    setAllTasks(allTasks.filter(t => t._id !== taskId));
+  };
+
+  // Derive filtered tasks and counts
+  const filteredTasks = allTasks.filter(task => {
+    const matchesStatus = statusFilter === 'All' || task.status === statusFilter.toLowerCase();
+    const matchesSearch = task.title.toLowerCase().includes(debouncedSearch.toLowerCase());
+    return matchesStatus && matchesSearch;
+  });
+
+  const counts = {
+    All: allTasks.length,
+    New: allTasks.filter(t => t.status === 'new').length,
+    Completed: allTasks.filter(t => t.status === 'completed').length,
   };
 
   return (
@@ -107,10 +111,11 @@ function App() {
             setStatusFilter={setStatusFilter} 
             searchQuery={searchQuery} 
             setSearchQuery={setSearchQuery} 
+            counts={counts}
         />
 
         <TaskList 
-          tasks={tasks} 
+          tasks={filteredTasks} 
           loading={loading} 
           onTaskUpdated={handleTaskUpdated}
           onTaskDeleted={handleTaskDeleted}
