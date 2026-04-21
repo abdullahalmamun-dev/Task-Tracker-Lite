@@ -17,7 +17,7 @@ const TaskList = ({ tasks, loading, onTaskUpdated, onTaskDeleted }) => {
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-indigo-50 text-indigo-500 mb-4">
                     <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
                 </div>
-                <h3 className="text-lg font-bold text-slate-800 mb-1">No tasks yet</h3>
+                <h3 className="text-lg font-semibold text-slate-800 mb-1">No tasks yet</h3>
                 <p className="text-slate-500">Get started by adding a new task above.</p>
             </div>
         );

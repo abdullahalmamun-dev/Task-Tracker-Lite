@@ -5,13 +5,13 @@ const FilterBar = ({ statusFilter, setStatusFilter, searchQuery, setSearchQuery 
 
     return (
         <div className="flex flex-col sm:flex-row gap-6 justify-between items-center mb-10">
-            <div className="flex bg-white p-1.5 rounded-[20px] border border-slate-200/60 shadow-sm w-full sm:w-auto relative overflow-hidden">
+            <div className="flex bg-white p-1.5 rounded-xl border border-slate-200/60 shadow-sm w-full sm:w-auto relative overflow-hidden">
                 <div className="absolute inset-0 bg-slate-50/50 pointer-events-none"></div>
                 {tabs.map(tab => (
                     <button
                         key={tab}
                         onClick={() => setStatusFilter(tab)}
-                        className={`relative z-10 flex-1 sm:flex-none px-8 py-2.5 rounded-2xl text-sm font-bold transition-all duration-500 ${
+                        className={`relative z-10 flex-1 sm:flex-none px-8 py-2.5 rounded-xl text-sm font-semibold transition-all duration-500 ${
                             statusFilter === tab 
                             ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/20' 
                             : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'
@@ -28,7 +28,7 @@ const FilterBar = ({ statusFilter, setStatusFilter, searchQuery, setSearchQuery 
                 </div>
                 <input
                     type="text"
-                    className="w-full pl-12 pr-6 py-4 bg-white border border-slate-200/60 rounded-[22px] text-base outline-none focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-300 text-slate-700 placeholder:text-slate-400 shadow-sm font-semibold"
+                    className="w-full pl-12 pr-6 py-4 bg-white border border-slate-200/60 rounded-xl text-base outline-none focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-300 text-slate-700 placeholder:text-slate-400 shadow-sm font-semibold"
                     placeholder="Search tasks..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}

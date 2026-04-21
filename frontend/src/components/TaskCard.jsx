@@ -46,7 +46,6 @@ const TaskCard = ({ task, onUpdate, onDelete }) => {
     const handleSaveEdit = async () => {
         if (!editTitle.trim()) return;
 
-        // Validation: Text only (letters and spaces)
         if (!/^[a-zA-Z\s]+$/.test(editTitle)) {
             toast.error('Task title must only contain letters and spaces');
             return;
@@ -71,7 +70,7 @@ const TaskCard = ({ task, onUpdate, onDelete }) => {
             <div className="card p-6 sm:px-8 mb-4">
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-col gap-1">
-                        <label className="text-xs font-bold text-slate-400 uppercase tracking-wider ml-1">Task Title</label>
+                        <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider ml-1">Task Title</label>
                         <input
                             type="text"
                             className="input-base"
@@ -82,7 +81,7 @@ const TaskCard = ({ task, onUpdate, onDelete }) => {
                         />
                     </div>
                     <div className="flex flex-col gap-1">
-                        <label className="text-xs font-bold text-slate-400 uppercase tracking-wider ml-1">Description</label>
+                        <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider ml-1">Description</label>
                         <textarea
                             className="input-base text-sm resize-none"
                             rows="2"
@@ -120,8 +119,8 @@ const TaskCard = ({ task, onUpdate, onDelete }) => {
         <div className={`card p-6 sm:px-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 animate-slideUp group ${task.status === 'completed' ? 'opacity-70 grayscale-[0.3]' : ''}`}>
             <div className="flex-1 min-w-0 w-full">
                 <div className="flex items-center gap-3 mb-2">
-                    <span className={`flex-shrink-0 w-2 h-2 rounded-full ${task.status === 'completed' ? 'bg-emerald-400' : 'bg-indigo-500'}`}></span>
-                    <h3 className={`text-xl font-bold transition-all truncate ${task.status === 'completed' ? 'line-through text-slate-400' : 'text-slate-800 group-hover:text-indigo-600'}`}>
+                    <span className={`flex-shrink-0 w-2 h-2 rounded-xl ${task.status === 'completed' ? 'bg-emerald-400' : 'bg-indigo-500'}`}></span>
+                    <h3 className={`text-xl font-semibold transition-all truncate ${task.status === 'completed' ? 'line-through text-slate-400' : 'text-slate-800 group-hover:text-indigo-600'}`}>
                         {task.title}
                     </h3>
                 </div>
@@ -133,8 +132,8 @@ const TaskCard = ({ task, onUpdate, onDelete }) => {
                 )}
                 
                 <div className="flex flex-wrap items-center gap-4 text-sm mt-auto">
-                    <div className={`px-3 py-1 rounded-full font-bold text-[10px] tracking-widest uppercase flex items-center gap-1.5 ${task.status === 'new' ? 'bg-indigo-50 text-indigo-600' : 'bg-emerald-50 text-emerald-600'}`}>
-                        <div className={`w-1 h-1 rounded-full ${task.status === 'new' ? 'bg-indigo-400' : 'bg-emerald-400'}`}></div>
+                    <div className={`px-3 py-1 rounded-xl font-semibold text-[10px] tracking-widest uppercase flex items-center gap-1.5 ${task.status === 'new' ? 'bg-indigo-50 text-indigo-600' : 'bg-emerald-50 text-emerald-600'}`}>
+                        <div className={`w-1 h-1 rounded-xl ${task.status === 'new' ? 'bg-indigo-400' : 'bg-emerald-400'}`}></div>
                         {task.status}
                     </div>
                     
@@ -154,11 +153,11 @@ const TaskCard = ({ task, onUpdate, onDelete }) => {
                 </div>
             </div>
             
-            <div className="flex items-center gap-3 self-end sm:self-center opacity-100 sm:opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 sm:translate-y-0 group-hover:translate-y-0">
+            <div className="flex items-center gap-3 self-end sm:self-center opacity-100 md:opacity-80 sm:opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 sm:translate-y-0 group-hover:translate-y-0">
                 {task.status === 'new' && (
                     <>
                         <button 
-                            className="w-10 h-10 flex items-center justify-center text-emerald-500 bg-emerald-50 hover:bg-emerald-500 hover:text-white rounded-2xl transition-all shadow-sm active:scale-95"
+                            className="w-10 h-10 flex items-center justify-center text-emerald-500 bg-emerald-50 hover:bg-emerald-500 hover:text-white rounded-xl transition-all shadow-sm active:scale-95"
                             onClick={handleComplete}
                             title="Mark as completed"
                             disabled={isProcessing}
@@ -166,7 +165,7 @@ const TaskCard = ({ task, onUpdate, onDelete }) => {
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7"></path></svg>
                         </button>
                         <button 
-                            className="w-10 h-10 flex items-center justify-center text-indigo-500 bg-indigo-50 hover:bg-indigo-500 hover:text-white rounded-2xl transition-all shadow-sm active:scale-95"
+                            className="w-10 h-10 flex items-center justify-center text-indigo-500 bg-indigo-50 hover:bg-indigo-500 hover:text-white rounded-xl transition-all shadow-sm active:scale-95"
                             onClick={() => setIsEditing(true)}
                             title="Edit task"
                             disabled={isProcessing}
@@ -174,7 +173,7 @@ const TaskCard = ({ task, onUpdate, onDelete }) => {
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                         </button>
                         <button 
-                            className="w-10 h-10 flex items-center justify-center text-red-400 bg-red-50 hover:bg-red-500 hover:text-white rounded-2xl transition-all shadow-sm active:scale-95"
+                            className="w-10 h-10 flex items-center justify-center text-red-400 bg-red-50 hover:bg-red-500 hover:text-white rounded-xl transition-all shadow-sm active:scale-95"
                             onClick={handleDelete}
                             title="Delete task"
                             disabled={isProcessing}

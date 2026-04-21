@@ -64,11 +64,11 @@ function App() {
   return (
     <div className="max-w-4xl mx-auto w-full p-6 md:p-12 flex flex-col flex-1 min-h-screen">
       <header className="text-center mb-12 animate-fadeInDown">
-        <div className="inline-flex items-center gap-2 mb-4 px-4 py-1.5 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 text-[11px] font-black tracking-[0.2em] uppercase">
-          <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse"></span>
+        <div className="inline-flex items-center gap-2 mb-4 px-4 py-1.5 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 text-[11px] font-semibold tracking-[0.2em] uppercase">
+          <span className="w-1.5 h-1.5 rounded-xl bg-indigo-500 animate-pulse"></span>
           Productivity Hub
         </div>
-        <h1 className="text-5xl md:text-7xl font-black bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent tracking-tight mb-4 drop-shadow-sm">
+        <h1 className="text-5xl md:text-7xl font-semibold bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent tracking-tight mb-4 drop-shadow-sm">
           Task Tracker Lite
         </h1>
         <p className="text-slate-500 text-xl max-w-xl mx-auto font-medium leading-relaxed">
@@ -117,7 +117,7 @@ function App() {
         />
       </main>
 
-      <footer className="text-center py-12 mt-auto text-slate-400 text-sm font-bold relative z-10 tracking-widest uppercase opacity-60">
+      <footer className="text-center py-12 mt-auto text-slate-400 text-sm font-semibold relative z-10 tracking-widest uppercase opacity-60">
         <p>&copy; {new Date().getFullYear()} &bull; <a href="https://instacall.digital/" target="_blank" className="hover:text-indigo-600 transition-colors">Built for Instacall</a></p>
       </footer>
     </div>

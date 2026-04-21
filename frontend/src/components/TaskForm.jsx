@@ -37,15 +37,14 @@ const TaskForm = ({ onTaskCreated }) => {
 
     return (
         <div className="card p-6 sm:p-8 mb-10 overflow-hidden relative group">
-            {/* Subtle background glow effect */}
-            <div className="absolute -top-24 -right-24 w-48 h-48 bg-indigo-500/5 blur-3xl rounded-full group-hover:bg-indigo-500/10 transition-all duration-700"></div>
+            <div className="absolute -top-24 -right-24 w-48 h-48 bg-indigo-500/5 blur-3xl rounded-xl group-hover:bg-indigo-500/10 transition-all duration-700"></div>
             
             <form onSubmit={handleSubmit} className="relative z-10">
                 <div className="flex flex-col gap-6">
                     <div className="flex flex-col gap-2">
                         <div className="flex items-center justify-between px-1">
-                            <label className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                                <span className="w-1 h-1 bg-indigo-500 rounded-full"></span>
+                            <label className="text-xs font-semibold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                                <span className="w-1 h-1 bg-indigo-500 rounded-xl"></span>
                                 New Task
                             </label>
                             <span className="text-[10px] text-slate-300 font-medium italic">Alphabetic characters only</span>
@@ -54,7 +53,7 @@ const TaskForm = ({ onTaskCreated }) => {
                         <div className="flex flex-col sm:flex-row gap-3">
                             <input
                                 type="text"
-                                className="input-base text-lg font-bold"
+                                className="input-base text-lg font-semibold"
                                 placeholder="What needs to be done?"
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
@@ -67,7 +66,7 @@ const TaskForm = ({ onTaskCreated }) => {
                             >
                                 {isSubmitting ? (
                                     <>
-                                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-xl animate-spin"></div>
                                         <span>Creating...</span>
                                     </>
                                 ) : (
@@ -81,8 +80,8 @@ const TaskForm = ({ onTaskCreated }) => {
                     </div>
 
                     <div className="flex flex-col gap-2">
-                        <label className="text-xs font-bold text-slate-400 uppercase tracking-widest px-1 flex items-center gap-2">
-                            <span className="w-1 h-1 bg-slate-300 rounded-full"></span>
+                        <label className="text-xs font-semibold text-slate-400 uppercase tracking-widest px-1 flex items-center gap-2">
+                            <span className="w-1 h-1 bg-slate-300 rounded-xl"></span>
                             Details (Optional)
                         </label>
                         <textarea

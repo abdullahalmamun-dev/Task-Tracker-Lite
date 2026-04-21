@@ -4,10 +4,10 @@
 @layer base {
   body {
     @apply bg-slate-50 text-slate-800 min-h-screen antialiased;
-    background-image: 
-      radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.12) 0%, transparent 40%),
-      radial-gradient(circle at 90% 90%, rgba(236, 72, 153, 0.08) 0%, transparent 40%),
-      radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.04) 0%, transparent 60%);
+    background-image:
+      radial-gradient(circle at 10% 10%, rgba(99,102,241,0.12) 0%, transparent 40%),
+      radial-gradient(circle at 90% 90%, rgba(236,72,153,0.08) 0%, transparent 40%),
+      radial-gradient(circle at 50% 50%, rgba(16,185,129,0.04) 0%, transparent 60%);
     background-attachment: fixed;
   }
 
@@ -19,20 +19,20 @@
 
 @layer components {
   .card {
-    @apply bg-white/80 backdrop-blur-xl border border-white/40 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)];
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    @apply bg-white/80 backdrop-blur-xl border border-white/40 rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.04)];
+    transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
   }
 
   .card:hover {
-    @apply border-indigo-200/50 shadow-[0_20px_40px_rgb(0,0,0,0.06)];
+    @apply border-indigo-200/50 shadow-[0_20px_40px_rgba(0,0,0,0.06)];
   }
 
   .btn {
-    @apply font-semibold rounded-2xl px-6 py-3 transition-all duration-300 inline-flex items-center justify-center gap-2;
+    @apply font-semibold rounded-xl px-6 py-3 transition-all duration-300 inline-flex items-center justify-center gap-2;
   }
 
   .input-base {
-    @apply w-full bg-white border border-slate-200 rounded-2xl px-5 py-3.5 text-slate-800 outline-none transition-all duration-300 placeholder:text-slate-400;
+    @apply w-full bg-white border border-slate-200 rounded-xl px-5 py-3.5 text-slate-800 outline-none transition-all duration-300 placeholder:text-slate-400;
   }
 
   .input-base:focus {
@@ -42,8 +42,13 @@
 
 /* Custom smooth animations */
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 .animate-shimmer {
