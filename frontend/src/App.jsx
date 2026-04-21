@@ -62,16 +62,17 @@ function App() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto w-full p-6 md:p-10 flex flex-col flex-1 min-h-screen">
-      <header className="text-center mb-10 animate-fadeInDown">
-        <div className="inline-block mb-3 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 text-xs font-bold tracking-widest uppercase">
-          Workspace
+    <div className="max-w-4xl mx-auto w-full p-6 md:p-12 flex flex-col flex-1 min-h-screen">
+      <header className="text-center mb-12 animate-fadeInDown">
+        <div className="inline-flex items-center gap-2 mb-4 px-4 py-1.5 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 text-[11px] font-black tracking-[0.2em] uppercase">
+          <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse"></span>
+          Productivity Hub
         </div>
-        <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent tracking-tight mb-3">
+        <h1 className="text-5xl md:text-7xl font-black bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent tracking-tight mb-4 drop-shadow-sm">
           Task Tracker Lite
         </h1>
-        <p className="text-slate-500 text-lg max-w-lg mx-auto">
-          Manage your daily priorities efficiently with a beautiful, modern workflow.
+        <p className="text-slate-500 text-xl max-w-xl mx-auto font-medium leading-relaxed">
+          The minimalist way to manage your daily workflow with focus and clarity.
         </p>
       </header>
 
@@ -79,22 +80,26 @@ function App() {
         <Toaster 
           position="bottom-right" 
           toastOptions={{
+            duration: 4000,
             style: {
-              borderRadius: '12px',
+              borderRadius: '20px',
               background: '#fff',
               color: '#334155',
-              boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-              border: '1px solid #e2e8f0',
-              fontWeight: 500,
+              boxShadow: '0 20px 40px -10px rgb(0 0 0 / 0.1)',
+              border: '1px solid #f1f5f9',
+              padding: '16px 24px',
+              fontSize: '15px',
+              fontWeight: 600,
             },
             success: {
               iconTheme: {
-                primary: '#10b981',
+                primary: '#6366f1',
                 secondary: '#fff',
               },
             },
           }} 
         />
+        
         <TaskForm onTaskCreated={handleTaskCreated} />
         
         <FilterBar 
@@ -112,8 +117,8 @@ function App() {
         />
       </main>
 
-      <footer className="text-center py-10 mt-auto text-slate-400 text-sm font-medium relative z-10">
-        <p>&copy; {new Date().getFullYear()} &bull; <a href="https://instacall.digital/" target="_blank" >Built for Instacall</a></p>
+      <footer className="text-center py-12 mt-auto text-slate-400 text-sm font-bold relative z-10 tracking-widest uppercase opacity-60">
+        <p>&copy; {new Date().getFullYear()} &bull; <a href="https://instacall.digital/" target="_blank" className="hover:text-indigo-600 transition-colors">Built for Instacall</a></p>
       </footer>
     </div>
   );

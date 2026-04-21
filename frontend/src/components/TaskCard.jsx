@@ -45,6 +45,13 @@ const TaskCard = ({ task, onUpdate, onDelete }) => {
 
     const handleSaveEdit = async () => {
         if (!editTitle.trim()) return;
+
+        // Validation: Text only (letters and spaces)
+        if (!/^[a-zA-Z\s]+$/.test(editTitle)) {
+            toast.error('Task title must only contain letters and spaces');
+            return;
+        }
+
         setIsProcessing(true);
         try {
             const updated = await updateTask(task._id, { title: editTitle, description: editDescription });
@@ -61,26 +68,32 @@ const TaskCard = ({ task, onUpdate, onDelete }) => {
 
     if (isEditing) {
         return (
-            <div className="card p-5 sm:px-6 transition-all duration-300">
-                <div className="flex flex-col gap-3">
-                    <input
-                        type="text"
-                        className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2 text-slate-800 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/10 font-semibold"
-                        value={editTitle}
-                        onChange={(e) => setEditTitle(e.target.value)}
-                        disabled={isProcessing}
-                        autoFocus
-                    />
-                    <textarea
-                        className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2 text-slate-800 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/10 text-sm resize-none"
-                        rows="2"
-                        value={editDescription}
-                        onChange={(e) => setEditDescription(e.target.value)}
-                        disabled={isProcessing}
-                    />
-                    <div className="flex justify-end gap-2 mt-1">
+            <div className="card p-6 sm:px-8 mb-4">
+                <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-1">
+                        <label className="text-xs font-bold text-slate-400 uppercase tracking-wider ml-1">Task Title</label>
+                        <input
+                            type="text"
+                            className="input-base"
+                            value={editTitle}
+                            onChange={(e) => setEditTitle(e.target.value)}
+                            disabled={isProcessing}
+                            autoFocus
+                        />
+                    </div>
+                    <div className="flex flex-col gap-1">
+                        <label className="text-xs font-bold text-slate-400 uppercase tracking-wider ml-1">Description</label>
+                        <textarea
+                            className="input-base text-sm resize-none"
+                            rows="2"
+                            value={editDescription}
+                            onChange={(e) => setEditDescription(e.target.value)}
+                            disabled={isProcessing}
+                        />
+                    </div>
+                    <div className="flex justify-end gap-3 mt-2">
                         <button 
-                            className="px-4 py-1.5 rounded-lg text-sm font-medium text-slate-500 hover:bg-slate-100 transition-colors"
+                            className="px-5 py-2 rounded-xl text-sm font-semibold text-slate-500 hover:bg-slate-100 transition-all"
                             onClick={() => {
                                 setIsEditing(false);
                                 setEditTitle(task.title);
@@ -91,11 +104,11 @@ const TaskCard = ({ task, onUpdate, onDelete }) => {
                             Cancel
                         </button>
                         <button 
-                            className="px-4 py-1.5 rounded-lg text-sm font-medium bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
+                            className="px-6 py-2 rounded-xl text-sm font-semibold bg-indigo-600 text-white hover:bg-indigo-700 hover:shadow-lg hover:shadow-indigo-500/20 transition-all"
                             onClick={handleSaveEdit}
                             disabled={isProcessing || !editTitle.trim()}
                         >
-                            {isProcessing ? 'Saving...' : 'Save'}
+                            {isProcessing ? 'Saving...' : 'Save Changes'}
                         </button>
                     </div>
                 </div>
@@ -104,52 +117,56 @@ const TaskCard = ({ task, onUpdate, onDelete }) => {
     }
 
     return (
-        <div className={`card p-5 sm:px-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-md animate-slideUp group ${task.status === 'completed' ? 'opacity-80 bg-slate-50 border-transparent hover:border-transparent hover:-translate-y-0' : 'hover:border-indigo-200/80'}`}>
+        <div className={`card p-6 sm:px-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 animate-slideUp group ${task.status === 'completed' ? 'opacity-70 grayscale-[0.3]' : ''}`}>
             <div className="flex-1 min-w-0 w-full">
-                <h3 className={`text-lg mb-1 font-semibold transition-colors truncate ${task.status === 'completed' ? 'line-through text-slate-400' : 'text-slate-800 group-hover:text-indigo-600'}`}>
-                    {task.title}
-                </h3>
+                <div className="flex items-center gap-3 mb-2">
+                    <span className={`flex-shrink-0 w-2 h-2 rounded-full ${task.status === 'completed' ? 'bg-emerald-400' : 'bg-indigo-500'}`}></span>
+                    <h3 className={`text-xl font-bold transition-all truncate ${task.status === 'completed' ? 'line-through text-slate-400' : 'text-slate-800 group-hover:text-indigo-600'}`}>
+                        {task.title}
+                    </h3>
+                </div>
                 
                 {task.description && (
-                    <p className={`text-sm mb-3 line-clamp-2 ${task.status === 'completed' ? 'text-slate-400' : 'text-slate-500'}`}>
+                    <p className={`text-base mb-4 leading-relaxed ${task.status === 'completed' ? 'text-slate-400' : 'text-slate-500'}`}>
                         {task.description}
                     </p>
                 )}
                 
-                <div className={`flex flex-wrap items-center gap-3 text-sm ${!task.description ? 'mt-1.5' : ''}`}>
-                    <span className={`px-2.5 py-0.5 rounded-md font-bold text-[10px] tracking-widest uppercase ${task.status === 'new' ? 'bg-indigo-50 text-indigo-600 border border-indigo-100' : 'bg-emerald-50 text-emerald-600 border border-emerald-100'}`}>
+                <div className="flex flex-wrap items-center gap-4 text-sm mt-auto">
+                    <div className={`px-3 py-1 rounded-full font-bold text-[10px] tracking-widest uppercase flex items-center gap-1.5 ${task.status === 'new' ? 'bg-indigo-50 text-indigo-600' : 'bg-emerald-50 text-emerald-600'}`}>
+                        <div className={`w-1 h-1 rounded-full ${task.status === 'new' ? 'bg-indigo-400' : 'bg-emerald-400'}`}></div>
                         {task.status}
-                    </span>
-                    <span className="text-slate-400 font-medium text-xs">
-                        Created: {formatDate(task.createdAt)}
-                    </span>
-                    {task.completedAt && (
-                        <span className="text-emerald-500 font-medium text-xs flex items-center gap-1">
-                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7"></path></svg>
-                            Done: {formatDate(task.completedAt)}
+                    </div>
+                    
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-x-4 gap-y-1">
+                        <span className="text-slate-400 font-medium text-xs flex items-center gap-1.5">
+                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            Created {formatDate(task.createdAt)}
                         </span>
-                    )}
-                    {task.deletedAt && (
-                        <span className="text-red-400 font-medium text-xs">
-                            Deleted: {formatDate(task.deletedAt)}
-                        </span>
-                    )}
+                        
+                        {task.completedAt && (
+                            <span className="text-emerald-500 font-semibold text-xs flex items-center gap-1.5">
+                                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7"></path></svg>
+                                Completed {formatDate(task.completedAt)}
+                            </span>
+                        )}
+                    </div>
                 </div>
             </div>
             
-            <div className="flex items-center gap-2 self-end sm:self-center opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="flex items-center gap-3 self-end sm:self-center opacity-100 sm:opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 sm:translate-y-0 group-hover:translate-y-0">
                 {task.status === 'new' && (
                     <>
                         <button 
-                            className="p-2 text-indigo-500 hover:bg-indigo-50 rounded-lg transition-colors"
+                            className="w-10 h-10 flex items-center justify-center text-emerald-500 bg-emerald-50 hover:bg-emerald-500 hover:text-white rounded-2xl transition-all shadow-sm active:scale-95"
                             onClick={handleComplete}
                             title="Mark as completed"
                             disabled={isProcessing}
                         >
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7"></path></svg>
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7"></path></svg>
                         </button>
                         <button 
-                            className="p-2 text-slate-400 hover:text-indigo-500 hover:bg-indigo-50 rounded-lg transition-colors"
+                            className="w-10 h-10 flex items-center justify-center text-indigo-500 bg-indigo-50 hover:bg-indigo-500 hover:text-white rounded-2xl transition-all shadow-sm active:scale-95"
                             onClick={() => setIsEditing(true)}
                             title="Edit task"
                             disabled={isProcessing}
@@ -157,7 +174,7 @@ const TaskCard = ({ task, onUpdate, onDelete }) => {
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                         </button>
                         <button 
-                            className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                            className="w-10 h-10 flex items-center justify-center text-red-400 bg-red-50 hover:bg-red-500 hover:text-white rounded-2xl transition-all shadow-sm active:scale-95"
                             onClick={handleDelete}
                             title="Delete task"
                             disabled={isProcessing}
